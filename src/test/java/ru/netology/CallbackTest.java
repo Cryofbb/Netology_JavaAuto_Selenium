@@ -68,4 +68,68 @@ public class CallbackTest {
         form.$("[role=button]").click();
         $("[data-test-id=name] .input__sub").shouldHave(exactText("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
     }
+    @Test
+    void shouldNotSubmitRequestWithEmptyPhone() {
+        SelenideElement form = $("[method=post]");
+        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=phone] input").setValue("");
+        form.$("[data-test-id=agreement]").click();
+        form.$("[role=button]").click();
+        $("[data-test-id=phone] .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
+    }
+    @Test
+    void shouldNotSubmitRequestWith12DigitsPhone() {
+        SelenideElement form = $("[method=post]");
+        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=phone] input").setValue("+799999999999");
+        form.$("[data-test-id=agreement]").click();
+        form.$("[role=button]").click();
+        $("[data-test-id=phone] .input__sub").shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+    }
+    @Test
+    void shouldNotSubmitRequestWith10DigitsPhone() {
+        SelenideElement form = $("[method=post]");
+        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=phone] input").setValue("+7999999999");
+        form.$("[data-test-id=agreement]").click();
+        form.$("[role=button]").click();
+        $("[data-test-id=phone] .input__sub").shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+    }
+    @Test
+    void shouldNotSubmitRequestWithoutPlusPhone() {
+        SelenideElement form = $("[method=post]");
+        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=phone] input").setValue("7999999999");
+        form.$("[data-test-id=agreement]").click();
+        form.$("[role=button]").click();
+        $("[data-test-id=phone] .input__sub").shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+    }
+    @Test
+    void shouldNotSubmitRequestWith1DigitsPhone() {
+        SelenideElement form = $("[method=post]");
+        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=phone] input").setValue("+7");
+        form.$("[data-test-id=agreement]").click();
+        form.$("[role=button]").click();
+        $("[data-test-id=phone] .input__sub").shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+    }
+    @Test
+    void shouldNotSubmitRequestWithLetterPhone() {
+        SelenideElement form = $("[method=post]");
+        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=phone] input").setValue("+7phone99999");
+        form.$("[data-test-id=agreement]").click();
+        form.$("[role=button]").click();
+        $("[data-test-id=phone] .input__sub").shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+    }
+    @Test
+    void shouldNotSubmitRequestWithoutFlag() {
+        SelenideElement form = $("[method=post]");
+        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=phone] input").setValue("+79999999999");
+        form.$("[data-test-id=agreement]").click();
+        form.$("[role=button]").click();
+        $("[data-test-id=agreement] .checkbox__text").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй"));
+    }
+
 }
