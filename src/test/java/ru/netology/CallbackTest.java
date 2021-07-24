@@ -1,32 +1,26 @@
 package ru.netology;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import com.codeborne.selenide.*;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+
+
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 
 
 public class CallbackTest {
-    private WebDriver driver;
-
-    @BeforeAll
-    public static void setupClass() {
-        WebDriverManager.chromedriver().setup();
-    }
-
     @BeforeEach
-    void setUp() {
-        driver = new ChromeDriver();
+    void setup(){
+        open("http://localhost:9999");
     }
-
-    @AfterEach
-    void tearDown() {
-        driver.quit();
-        driver = null;
-    }
-
     @Test
-    void shouldTestSomething() {
-        throw new UnsupportedOperationException();
+    void shouldSubmitRequest() {
+        SelenideElement form = $("[method=post]");
+        form.$("[data-test-id=name] input").setValue("Василий");
+        form.$("[data-test-id=phone] input").setValue("+79270000000");
+        form.$("[data-test-id=agreement]").click();
+        form.$("[role=button]").click();
+        $("[data-test-id=order-success]").shouldHave(exactText("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
     }
 }
