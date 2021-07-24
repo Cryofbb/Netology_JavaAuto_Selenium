@@ -4,6 +4,7 @@ import com.codeborne.selenide.*;
 import org.junit.jupiter.api.*;
 
 
+import static com.codeborne.selenide.Condition.checked;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -123,13 +124,20 @@ public class CallbackTest {
         $("[data-test-id=phone] .input__sub").shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
     }
     @Test
-    void shouldNotSubmitRequestWithoutFlag() {
+    void shouldNotSubmitRequestWithoutFlagVar1() {
         SelenideElement form = $("[method=post]");
         form.$("[data-test-id=name] input").setValue("Имя");
         form.$("[data-test-id=phone] input").setValue("+79999999999");
-        form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
         $("[data-test-id=agreement] .checkbox__text").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй"));
+    }
+    @Test
+    void shouldNotSubmitRequestWithoutFlagVar2() {
+        SelenideElement form = $("[method=post]");
+        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=phone] input").setValue("+79999999999");
+        form.$("[role=button]").click();
+        $("[data-test-id=agreement] .checkbox__control").shouldNotBe(checked);
     }
 
 }
