@@ -145,4 +145,13 @@ public class CallbackTest {
         $("[data-test-id=agreement].input_invalid .checkbox__text").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй"));
     }
 
+    @Test
+    void shouldNotSubmitRequestWithOneWord() {
+        SelenideElement form = $("[method=post]");
+        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=phone] input").setValue("+79000000000");
+        form.$("[data-test-id=agreement]").click();
+        form.$("[role=button]").click();
+        $("[data-test-id=name] .input__sub").shouldHave(exactText("Имя и Фамилия указаны неверно. Проверьте, что введённые данные совпадают с паспортными."));
+    }
 }
