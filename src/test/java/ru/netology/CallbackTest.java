@@ -19,7 +19,7 @@ public class CallbackTest {
     @Test
     void shouldSubmitRequest() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=name] input").setValue("Имя Фамилия");
         form.$("[data-test-id=phone] input").setValue("+79000000000");
         form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
@@ -29,7 +29,7 @@ public class CallbackTest {
     @Test
     void shouldSubmitRequestWithSpaceInName() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Имя имя");
+        form.$("[data-test-id=name] input").setValue("Имя Имя Фамилия");
         form.$("[data-test-id=phone] input").setValue("+79000000000");
         form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
@@ -39,7 +39,7 @@ public class CallbackTest {
     @Test
     void shouldSubmitRequestWithDoubleName() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Имя-имя");
+        form.$("[data-test-id=name] input").setValue("Имя-имя Фамилия");
         form.$("[data-test-id=phone] input").setValue("+79000000000");
         form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
@@ -59,7 +59,7 @@ public class CallbackTest {
     @Test
     void shouldNotSubmitRequestWithEnglishName() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Name");
+        form.$("[data-test-id=name] input").setValue("Name Surname");
         form.$("[data-test-id=phone] input").setValue("+79000000000");
         form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
@@ -69,7 +69,7 @@ public class CallbackTest {
     @Test
     void shouldNotSubmitRequestWithSymbolName() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Имя%имя");
+        form.$("[data-test-id=name] input").setValue("Имя Фамилия%имя");
         form.$("[data-test-id=phone] input").setValue("+79000000000");
         form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
@@ -79,7 +79,7 @@ public class CallbackTest {
     @Test
     void shouldNotSubmitRequestWithEmptyPhone() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=name] input").setValue("Имя Фамилия");
         form.$("[data-test-id=phone] input").setValue("");
         form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
@@ -89,7 +89,7 @@ public class CallbackTest {
     @Test
     void shouldNotSubmitRequestWith12DigitsPhone() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=name] input").setValue("Имя Фамилия");
         form.$("[data-test-id=phone] input").setValue("+799999999999");
         form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
@@ -99,7 +99,7 @@ public class CallbackTest {
     @Test
     void shouldNotSubmitRequestWith10DigitsPhone() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=name] input").setValue("Имя Фамилия");
         form.$("[data-test-id=phone] input").setValue("+7999999999");
         form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
@@ -109,7 +109,7 @@ public class CallbackTest {
     @Test
     void shouldNotSubmitRequestWithoutPlusPhone() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=name] input").setValue("Имя Фамилия");
         form.$("[data-test-id=phone] input").setValue("7999999999");
         form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
@@ -119,7 +119,7 @@ public class CallbackTest {
     @Test
     void shouldNotSubmitRequestWith1DigitsPhone() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=name] input").setValue("Имя Фамилия");
         form.$("[data-test-id=phone] input").setValue("+7");
         form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
@@ -129,39 +129,20 @@ public class CallbackTest {
     @Test
     void shouldNotSubmitRequestWithLetterPhone() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=name] input").setValue("Имя Фамилия");
         form.$("[data-test-id=phone] input").setValue("+7phone99999");
         form.$("[data-test-id=agreement]").click();
         form.$("[role=button]").click();
         $("[data-test-id=phone] .input__sub").shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
     }
 
-//    @Test
-//    void shouldNotSubmitRequestWithoutFlagVar1() {
-//        SelenideElement form = $("[method=post]");
-//        form.$("[data-test-id=name] input").setValue("Имя");
-//        form.$("[data-test-id=phone] input").setValue("+79999999999");
-//        form.$("[role=button]").click();
-//        $("[data-test-id=agreement] .checkbox__control").shouldNotBe(checked);
-//    }
-
-//    @Test
-//    void shouldNotSubmitRequestWithoutFlagVar2() {
-//        SelenideElement form = $("[method=post]");
-//        form.$("[data-test-id=name] input").setValue("Имя");
-//        form.$("[data-test-id=phone] input").setValue("+79999999999");
-//        form.$("[role=button]").click();
-//        $("[data-test-id=agreement] .checkbox__text").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй"));
-//    }
-
     @Test
     void shouldNotSubmitRequestWithoutFlagVar3() {
         SelenideElement form = $("[method=post]");
-        form.$("[data-test-id=name] input").setValue("Имя");
+        form.$("[data-test-id=name] input").setValue("Имя Фамилия");
         form.$("[data-test-id=phone] input").setValue("+79999999999");
         form.$("[role=button]").click();
-        $("[data-test-id=agreement] .checkbox__control").shouldNotBe(checked);
-        $("[data-test-id=agreement] .checkbox__text").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй"));
+        $("[data-test-id=agreement].input_invalid .checkbox__text").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй"));
     }
 
 }
